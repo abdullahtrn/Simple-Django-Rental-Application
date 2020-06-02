@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Logged Out{%endblock%}
+{% block body %}
+<h1>Başarılı bir şekilde çıkış yaptınız.</h1>
+<h3>Yönlendiriliyorsunuz.</h3>
+<meta http-equiv="refresh" content="2;url=/" />
+
+<noscript><a href="/user/logged_out/">Devam etmek için tıklayınız.</a>
+</noscript>
+{% endblock %}

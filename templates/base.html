@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Renten</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://kit.fontawesome.com/58d516dd2f.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'layout/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'layout/css/styles.css' %}">
+        </style>
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+
+        {% block body %}
+        {% endblock body %}
+        
+        <script src="{% static 'layout/js/jquery-3.4.1.slim.min.js' %}"></script>
+        <script src="{% static 'layout/js/popper.min.js' %}"></script>
+        <script src="{% static 'layout/js/bootstrap.min.js' %}"></script>
+    </body>
+</html>

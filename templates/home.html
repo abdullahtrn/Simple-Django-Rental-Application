@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4" style="color:white;">Renten</h1>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'item-create' %}" class="btn btn-success">Ürün Ekle</a>
+          {% else %}
+          <a href="{% url "users:register" %}" class="btn btn-info">Kayıt Ol</a><a href="" class="btn btn-success">Giriş Yap</a>
+          {% endif %}
+        </div>
+  </div>
+  <div class="container">
+    <div class="row text-center">
+      {%for category in items.all_categories%}
+        <div class="col-1">
+          <form action="{% url 'search_category' %}" method="GET">
+            <button class="btn btn-{{category.get_color_display}} btn-circle btn-circle-lg m-1">
+              <i class="fa fa-{{category.get_icon_display}}"></i>         
+            </button>
+            <span>{{category.name}}</span>
+            <input type="hidden" value="{{category.name}}" name="q">
+          </form>
+        </div>
+      {% endfor %}  
+    </div>
+    {% if items.is_search %}
+      <br>
+      <a class="btn btn-danger" href="{% url 'home' %}"><i class="fas fa-long-arrow-alt-left"></i> Aramayı sıfırla</a>
+    {% endif %}
+    <div class="row">
+      <div class="col-3">
+          <div class="dropdown" style="margin-top:2%;">
+              <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Fiyat
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <form method="GET" action="{% url 'search_price' %}">
+                  <input type="number" placeholder="Min" step="0.01" min="0" id="minPrice" name="minPrice">
+                  - <input type="number" placeholder="Max" step="0.01" min="0" id="maxPrice" name="maxPrice">
+                  <input type="submit" value="submit" style="display: none;"/>
+                </form>  
+              </div>
+            </div>
+      </div>
+      <div class="col-3">
+          <div class="dropdown" style="margin-top:2%;">
+              <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Lokasyon
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <form method="GET" action="{% url 'search_location' %}">
+                  <input type="text" placeholder="Lokasyon" id="location" name="location">
+                  <input type="submit" value="submit" style="display: none;"/>
+                </form>  
+              </div>
+            </div>
+      </div>
+    </div>
+ 
+      {% if items.minimum and items.maximum %}
+        <p>₺{{items.minimum}} - ₺{{items.maximum}}</p>
+      {% endif %}
+    <div class="row text-center" id="items-mainpage">
+      {% for item in items.all_items %}
+        <div class="col-3">
+          <div class="card">
+            <a href="{% url 'item-detail' item.slug %}"><img class="card-img-top" id="item-image" src="{{ item.picture.url }}" alt="Card image cap"></a>
+            <div class="card-body">
+              <h5 class="card-title" id="item-header"><a href="{% url 'item-detail' item.slug %}">{{item.name}}</a></h5>
+              <p class="card-text" id="item-text">{{item.description|truncatewords:5}}...</p>
+              <div class="row">
+                <div class="col-6">
+                  <p class="card-text">{{item.owner.location}}</p>
+                </div>
+                <div class="div col-6">
+                    <p class="card-text"> ₺{{item.price}} </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+{% endblock body %}
